@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vote Perwakilan Favorit — SMP N 3 Sarolangun</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased bg-gradient-to-b from-slate-100 via-slate-50 to-white selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- ===================================================================== -->
+  <!-- 1. HEADER SEDERHANA & ELEGAN                                          -->
+  <!-- ===================================================================== -->
+  <header class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white shadow-md">
+    <!-- Aksen cahaya dekoratif lembut -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[36rem] h-56 rounded-full bg-blue-500/20 blur-3xl"></div>
+      <div class="absolute -bottom-20 right-10 w-64 h-64 rounded-full bg-amber-400/10 blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 text-center">
+      <!-- Badge Sekolah -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-xs text-amber-300 text-xs sm:text-sm font-bold tracking-wider uppercase mb-4 shadow-xs">
+        <svg class="w-4 h-4 text-amber-400 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+        </svg>
+        <span>SMP NEGERI 3 SAROLANGUN</span>
+      </div>
+
+      <!-- Judul Utama -->
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+        Vote Perwakilan Favorit!
+      </h1>
+
+      <!-- Subjudul Singkat -->
+      <p class="mt-3 max-w-xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed">
+        Klik tombol vote pada masing-masing kandidat atau grup di bawah ini untuk menuju halaman voting.
+      </p>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- 2. GRID KARTU NOMINASI (3 PERORANGAN & 1 GRUP FAVORIT)                -->
+  <!-- ===================================================================== -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <section aria-label="Daftar Nominasi Voting">
+      <!-- Grid Responsif: 1 kolom (HP), 2 kolom (Tablet), 4 kolom sejajar (Desktop) -->
+      <div id="nominasi-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Kartu akan di-render otomatis dari array DAFTAR_NOMINASI di bawah -->
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- 3. FOOTER MINIMALIS & TOMBOL BAGIKAN                                  -->
+  <!-- ===================================================================== -->
+  <footer class="border-t border-slate-200/80 bg-white/90 backdrop-blur-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <!-- Tombol Bagikan Halaman Ini -->
+      <button
+        type="button"
+        id="share-button"
+        onclick="bagikanHalaman()"
+        class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-blue-50 active:scale-[0.98] text-slate-800 hover:text-blue-700 border border-slate-200 hover:border-blue-200 text-sm font-semibold transition-all cursor-pointer shadow-2xs"
+      >
+        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+        </svg>
+        <span>Bagikan Halaman Ini</span>
+      </button>
+
+      <!-- Teks Copyright -->
+      <p class="text-xs sm:text-sm font-medium text-slate-500 text-center sm:text-right">
+        Dukungan Voting — SMP N 3 Sarolangun
+      </p>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- 4. NOTIFIKASI TOAST (SAAT LINK BERHASIL DISALIN)                      -->
+  <!-- ===================================================================== -->
+  <div id="toast-container" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none px-4 w-full max-w-md flex justify-center"></div>
+
+  <!-- ===================================================================== -->
+  <!-- 5. KONFIGURASI DATA NOMINASI (MUDAH DIEDIT PEMILIK WEB)               -->
+  <!-- ===================================================================== -->
+  <script>
+    /**
+     * =========================================================================
+     * PANDUAN EDIT DATA KANDIDAT & GRUP (CUKUP UBAH BAGIAN DI BAWAH INI SAJA)
+     * =========================================================================
+     * - nama       : Isi dengan nama lengkap kandidat atau nama grup.
+     * - kategori   : Label badge di pojok foto ("Kandidat 01", "Grup Favorit", dll).
+     * - foto       : Isi dengan nama file foto (misal: "foto1.jpg") jika disimpan
+     *                satu folder dengan file HTML ini, atau tempel URL foto online.
+     *                (Kosongkan "" jika ingin memakai ilustrasi default sementara).
+     * - linkVoting : Tempelkan URL/link halaman voting tujuan masing-masing.
+     */
+    const DAFTAR_NOMINASI = [
+      {
+        nama: "Miranda Gustiani",
+        kategori: "Mayoret",
+        foto: "file:///C:/Users/Administrator/Downloads/miranda.jpeg",
+        linkVoting: "https://aqord.id/v-qord-active.html?vote=VQ-20261124-001&division=VQD-61124001-1795464977322-0E0Z&participant=VQP-0003-3ILA",
+        isGrup: false,
+      },
+      {
+        nama: "Khaylani Audya Riski",
+        kategori: "Mayoret",
+        foto: "file:///C:/Users/Administrator/Downloads/audy.jpeg",
+        linkVoting: "https://aqord.id/v-qord-active.html?vote=VQ-20261124-001&division=VQD-61124001-1795464977322-0E0Z&participant=VQP-0004-KJ1R",
+        isGrup: false,
+      },
+      {
+        nama: "Reayval Gunawan",
+        kategori: "Field Commander",
+        foto: "file:///C:/Users/Administrator/Downloads/reval.jpeg",
+        linkVoting: "https://aqord.id/v-qord-active.html?vote=VQ-20261124-001&division=VQD-61124001-1795466564063-8D0E&participant=VQP-0003-4HWO",
+        isGrup: false,
+      },
+      {
+        nama: "SMP N 3 Sarolangun",
+        kategori: "Grup Favorit",
+        foto: "file:///C:/Users/Administrator/Downloads/smp3.jpeg",
+        linkVoting: "https://aqord.id/v-qord-active.html?vote=VQ-20261124-001&division=VQD-61124001-1795463205624-LONE&participant=VQP-0003-KREY",
+        isGrup: true,
+      },
+    ];
+
+    /**
+     * Mengamankan teks dari karakter khusus HTML
+     */
+    function escapeHTML(teks) {
+      if (!teks) return "";
+      return String(teks)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    /**
+     * Membuat tampilan ilustrasi placeholder SVG yang rapi jika foto belum diisi
+     */
+    function buatPlaceholderFoto(item) {
+      if (item.isGrup) {
+        return `
+          <div class="w-full h-full bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 flex flex-col items-center justify-center p-6 text-amber-700 select-none">
+            <div class="w-20 h-20 rounded-2xl bg-white/80 shadow-xs flex items-center justify-center mb-3 text-amber-500">
+              <svg class="w-11 h-11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+              </svg>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-800/75">Foto Grup</span>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="w-full h-full bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200 flex flex-col items-center justify-center p-6 text-slate-600 select-none">
+          <div class="w-20 h-20 rounded-2xl bg-white/85 shadow-xs flex items-center justify-center mb-3 text-blue-600">
+            <svg class="w-11 h-11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
+          </div>
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Foto Kandidat</span>
+        </div>
+      `;
+    }
+
+    /**
+     * Merender 4 kartu nominasi ke dalam grid utama
+     */
+    function renderKartuNominasi() {
+      const grid = document.getElementById("nominasi-grid");
+      if (!grid) return;
+
+      grid.innerHTML = DAFTAR_NOMINASI.map((item) => {
+        const namaAman = escapeHTML(item.nama);
+        const kategoriAman = escapeHTML(item.kategori);
+        const linkAman = escapeHTML(item.linkVoting || "#");
+        const fotoUrl = item.foto ? item.foto.trim() : "";
+
+        // Gaya badge kategori & tombol khusus untuk membedakan Perorangan vs Grup Favorit secara elegan
+        const badgeStyle = item.isGrup
+          ? "bg-amber-400 text-slate-950 border border-amber-300"
+          : "bg-slate-900/85 text-white border border-white/15 backdrop-blur-xs";
+
+        const tombolStyle = item.isGrup
+          ? "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 shadow-amber-500/20"
+          : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-blue-600/20";
+
+        const mediaHTML = fotoUrl
+          ? `
+            <img
+              src="${escapeHTML(fotoUrl)}"
+              alt="${namaAman}"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+            />
+            <div style="display:none;" class="w-full h-full">
+              ${buatPlaceholderFoto(item)}
+            </div>
+          `
+          : buatPlaceholderFoto(item);
+
+        return `
+          <article class="group bg-white rounded-3xl border border-slate-200/90 p-3.5 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <!-- Wadah Foto Kotak (Aspect Square) + Badge Kategori di Pojok -->
+              <div class="relative aspect-square w-full rounded-2xl overflow-hidden bg-slate-100">
+                ${mediaHTML}
+
+                <!-- Badge Kategori di Pojok Kiri Atas Foto -->
+                <span class="absolute top-3 left-3 z-10 inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-extrabold tracking-wide shadow-sm ${badgeStyle}">
+                  ${item.isGrup ? "★ " : ""}${kategoriAman}
+                </span>
+              </div>
+
+              <!-- Nama Lengkap Kandidat / Nama Grup -->
+              <div class="pt-4 pb-3 px-1.5 text-center">
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900 leading-snug line-clamp-2">
+                  ${namaAman}
+                </h2>
+              </div>
+            </div>
+
+            <!-- Tombol Link Menuju Halaman Voting Eksternal -->
+            <div class="px-1 pb-1 pt-1">
+              <a
+                href="${linkAman}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl font-bold text-sm shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 ${tombolStyle}"
+              >
+                <span>Vote Sekarang</span>
+                <!-- Ikon External Link / Panah Keluar -->
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    /**
+     * Fungsi Bagikan Halaman (Web Share API di HP + Fallback Salin Link Otomatis)
+     */
+    async function bagikanHalaman() {
+      const urlHalaman = window.location.href;
+      const dataShare = {
+        title: "Vote Perwakilan Favorit — SMP N 3 Sarolangun",
+        text: "Ayo dukung dan vote perwakilan favorit dari SMP N 3 Sarolangun melalui link berikut:",
+        url: urlHalaman,
+      };
+
+      // Gunakan dialog bagikan bawaan HP jika browser mendukung (WhatsApp, Instagram, dll)
+      if (navigator.share) {
+        try {
+          await navigator.share(dataShare);
+          return;
+        } catch (err) {
+          // Jika pengguna membatalkan dialog share, tidak perlu menampilkan error
+          if (err && err.name === "AbortError") return;
+        }
+      }
+
+      // Fallback: Salin URL ke clipboard menggunakan document.execCommand('copy')
+      salinTeksKeClipboard(urlHalaman);
+    }
+
+    /**
+     * Menyalin teks ke clipboard secara kompatibel di semua browser & iframe
+     */
+    function salinTeksKeClipboard(teks) {
+      const areaSementara = document.createElement("textarea");
+      areaSementara.value = teks;
+      areaSementara.setAttribute("readonly", "");
+      areaSementara.style.position = "fixed";
+      areaSementara.style.opacity = "0";
+      document.body.appendChild(areaSementara);
+      areaSementara.select();
+
+      try {
+        document.execCommand("copy");
+        tampilkanToast("Link halaman disalin! Siap dibagikan ke WhatsApp / Instagram.");
+      } catch (err) {
+        tampilkanToast("Salin link dari address bar browser untuk membagikan.");
+      } finally {
+        document.body.removeChild(areaSementara);
+      }
+    }
+
+    /**
+     * Menampilkan notifikasi toast kecil di bagian bawah layar
+     */
+    function tampilkanToast(pesan) {
+      const container = document.getElementById("toast-container");
+      if (!container) return;
+
+      const toast = document.createElement("div");
+      toast.className =
+        "pointer-events-auto flex items-center gap-2.5 bg-slate-900 text-white text-xs sm:text-sm font-medium px-4 py-3 rounded-2xl shadow-xl border border-slate-700 transition-all duration-300 opacity-0 translate-y-2";
+      toast.innerHTML = `
+        <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </span>
+        <span>${escapeHTML(pesan)}</span>
+      `;
+
+      container.innerHTML = "";
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove("opacity-0", "translate-y-2");
+      });
+
+      setTimeout(() => {
+        toast.classList.add("opacity-0", "translate-y-2");
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    // Jalankan render saat halaman selesai dimuat
+    window.addEventListener("DOMContentLoaded", renderKartuNominasi);
+  </script>
+</body>
+</html>
